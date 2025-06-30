@@ -1,8 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { GoogleGenerativeAI } from "@google/generative-ai";
 
-const GEMINI_API_KEY = "AIzaSyAewdFwX4NtQCdksiD5ND31M8_XxMMfFaM"; // 🔐 Add your Gemini API key here
-
 const Bot = () => {
   const [input, setInput] = useState("");
   const [messages, setMessages] = useState([
@@ -33,7 +31,7 @@ const Bot = () => {
     setLoading(true);
 
     try {
-      const genAI = new GoogleGenerativeAI(GEMINI_API_KEY);
+      const genAI = new GoogleGenerativeAI(import.meta.env.VITE_GEMINI_API_KEY);
       const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
       const result = await model.generateContent(input);
       const text = result.response.text();
@@ -69,7 +67,6 @@ const Bot = () => {
       {/* Header */}
       <div className="flex flex-col items-center mb-6">
         <div className="flex items-center space-x-3">
-          {/* Logo */}
           <svg
             xmlns="http://www.w3.org/2000/svg"
             className="h-12 w-12 text-blue-400"
@@ -80,9 +77,7 @@ const Bot = () => {
           >
             <path d="M12 2L15 8H9L12 2Z M12 22L9 16H15L12 22Z M2 12L8 15V9L2 12Z M22 12L16 9V15L22 12Z" />
           </svg>
-          <h1 className="text-4xl font-extrabold tracking-tight text-blue-300">
-            H.ai
-          </h1>
+          <h1 className="text-4xl font-extrabold tracking-tight text-blue-300">H.ai</h1>
         </div>
         <p className="text-sm text-gray-400 mt-2">Powered by sheikhhaad</p>
       </div>
@@ -93,9 +88,7 @@ const Bot = () => {
           {messages.map((message, index) => (
             <div
               key={index}
-              className={`flex ${
-                message.sender === "user" ? "justify-end" : "justify-start"
-              } animate-slide-up`}
+              className={`flex ${message.sender === "user" ? "justify-end" : "justify-start"} animate-slide-up`}
             >
               <div
                 className={`p-4 rounded-2xl max-w-md transition-all duration-300 ${
@@ -130,7 +123,7 @@ const Bot = () => {
           <div ref={messagesEndRef} />
         </div>
 
-        {/* Input field - hides while loading */}
+        {/* Input */}
         {!loading && (
           <div className="w-full mt-6">
             <div className="relative">
@@ -154,12 +147,7 @@ const Bot = () => {
                   viewBox="0 0 24 24"
                   stroke="currentColor"
                 >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2"
-                    d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"
-                  />
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" />
                 </svg>
               </button>
             </div>
